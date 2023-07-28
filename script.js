@@ -36,3 +36,6 @@ function updateTable() {
     tableBody.appendChild(row);
   });
 }
+
+// Show an empty table when the page loads
+updateTable();
