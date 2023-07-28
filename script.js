@@ -42,6 +42,9 @@ initializeTableWithSampleData();
 function calculateBitVectorAnalysis() {
   const coinBiasInput = document.getElementById("coin-bias");
   const coinBias = parseFloat(coinBiasInput.value.trim());
+  const asr = numBits * probabilityOfOne * 128 / 8; // Convert bits to bytes
+  
+  analysisData.push({ bias: coinBias, entropy: shannonEntropy, compressedSize: compressedSizeInBytes, asr: asr });
 
   if (isNaN(coinBias) || coinBias < 0 || coinBias > 100) {
     document.getElementById("result").textContent = "Please enter a valid probability of 1 (between 0 and 100%).";
@@ -86,20 +89,24 @@ function calculateBitVectorAnalysis() {
 function updateTable() {
   const tableBody = document.getElementById("analysis-table");
   tableBody.innerHTML = "";
-
+  
+  
   analysisData.forEach((data) => {
     const row = document.createElement("tr");
     const biasCell = document.createElement("td");
     const entropyCell = document.createElement("td");
     const compressedSizeCell = document.createElement("td");
+    const asrCell = document.createElement("td");
 
     biasCell.textContent = data.bias.toFixed(2) + "%";
     entropyCell.textContent = data.entropy.toFixed(4);
     compressedSizeCell.textContent = data.compressedSize.toLocaleString();
+    asrCell.textContent = data.asr.toFixed(2);
 
     row.appendChild(biasCell);
     row.appendChild(entropyCell);
     row.appendChild(compressedSizeCell);
+    row.appendChild(asrCell);
     tableBody.appendChild(row);
   });
 }
