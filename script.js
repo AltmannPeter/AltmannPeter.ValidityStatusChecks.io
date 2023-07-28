@@ -85,7 +85,6 @@ function calculateBitVectorAnalysis() {
   }
 }
 
-
 function updateTable() {
   const tableBody = document.getElementById("analysis-table");
   tableBody.innerHTML = "";
@@ -108,6 +107,43 @@ function updateTable() {
     row.appendChild(compressedSizeCell);
     row.appendChild(asrCell);
     tableBody.appendChild(row);
+  });
+  generateGraph(); // Call generateGraph after updating the table
+}
+
+function generateGraph() {
+  const biases = [];
+  const compressedSizes = [];
+
+  // Extract relevant data for the chart
+  analysisData.forEach((data) => {
+    biases.push(data.bias.toFixed(2) + "%");
+    compressedSizes.push(data.compressedSize);
+  });
+
+  const ctx = document.getElementById("analysis-chart").getContext("2d");
+  const chart = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: biases,
+      datasets: [
+        {
+          label: "Gzip Compressed ASL Size (bytes)",
+          data: compressedSizes,
+          backgroundColor: "rgba(75, 192, 192, 0.6)",
+          borderColor: "rgba(75, 192, 192, 1)",
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
   });
 }
 
