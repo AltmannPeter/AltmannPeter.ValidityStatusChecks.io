@@ -111,5 +111,42 @@ function updateTable() {
   });
 }
 
+function generateGraph() {
+  const biases = [];
+  const compressedSizes = [];
+
+  // Extract relevant data for the chart
+  analysisData.forEach((data) => {
+    biases.push(data.bias.toFixed(2) + "%");
+    compressedSizes.push(data.compressedSize);
+  });
+
+  const ctx = document.getElementById("analysis-chart").getContext("2d");
+  const chart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: biases,
+      datasets: [
+        {
+          label: "Gzip Compressed ASL Size (bytes)",
+          data: compressedSizes,
+          backgroundColor: "rgba(75, 192, 192, 0.6)",
+          borderColor: "rgba(75, 192, 192, 1)",
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
+  });
+}
+
+
 // Show an empty table when the page loads
 updateTable();
