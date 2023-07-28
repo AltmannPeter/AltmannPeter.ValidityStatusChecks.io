@@ -140,6 +140,14 @@ function generateGraph() {
     options: {
       responsive: true,
       scales: {
+        x: {
+          type: "linear", // Use linear scale for the x-axis
+          min: 0, // Set the minimum value of the x-axis to 0
+          max: maxBias, // Set the maximum value of the x-axis to the maximum bias value
+          ticks: {
+            stepSize: 0.1, // Set the step size to 1 to show all integer values on the x-axis
+          },
+        },
         y: {
           beginAtZero: true,
         },
