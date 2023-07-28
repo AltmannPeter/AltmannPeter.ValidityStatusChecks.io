@@ -20,7 +20,9 @@ function initializeTableWithSampleData() {
     // Get the size of the compressed data in bytes
     const compressedSizeInBytes = compressedData.length;
 
-    analysisData.push({ bias: bias, entropy: shannonEntropy, compressedSize: compressedSizeInBytes });
+    const asr = numBits * probabilityOfOne * 128 / 8; // Convert bits to bytes
+
+    analysisData.push({ bias: bias, entropy: shannonEntropy, compressedSize: compressedSizeInBytes, asr: asr });
   });
 }
 
