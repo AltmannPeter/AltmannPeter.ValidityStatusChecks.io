@@ -3,8 +3,6 @@ let analysisData = [];
 // Function to initialize the table with sample data
 function initializeTableWithSampleData() {
   const sampleValues = [0.5, 1, 1.5, 2, 2.5, 3, 5, 10];
-  const sampleData = [];
-
   sampleValues.forEach((bias) => {
     const probabilityOfOne = bias / 100;
     const probabilityOfZero = 1 - probabilityOfOne;
@@ -25,14 +23,14 @@ function initializeTableWithSampleData() {
     // Calculate ASR (Average Sample Rate) in bytes
     const asrInBytes = (numBits * (bias / 100) * 128) / 8;
 
-    sampleData.push({ bias: bias, entropy: shannonEntropy, compressedSize: compressedSizeInBytes, asr: asrInBytes });
+    analysisData.push({ bias: bias, entropy: shannonEntropy, compressedSize: compressedSizeInBytes, asr: asrInBytes });
   });
 
-  // Sort the sampleData array in ascending order by Shannon entropy
-  sampleData.sort((a, b) => a.entropy - b.entropy);
+  // Sort the analysisData array in ascending order by Shannon entropy
+  analysisData.sort((a, b) => a.entropy - b.entropy);
 
-  // Push the sorted sampleData into the analysisData array
-  analysisData.push(...sampleData);
+  // Update the table
+  updateTable();
 }
 
 // Call the function to initialize the table with sample data
@@ -105,4 +103,17 @@ function updateTable() {
     const biasCell = document.createElement("td");
     const entropyCell = document.createElement("td");
     const compressedSizeCell = document.createElement("td");
-    const asrCell =
+    const asrCell = document.createElement("td");
+
+    biasCell.textContent = data.bias.toFixed(2) + "%";
+    entropyCell.textContent = data.entropy.toFixed(4);
+    compressedSizeCell.textContent = data.compressedSize.toLocaleString();
+    asrCell.textContent = data.asr.toLocaleString();
+
+    row.appendChild(biasCell);
+    row.appendChild(entropyCell);
+    row.appendChild(compressedSizeCell);
+    row.appendChild(asrCell);
+    tableBody.appendChild(row);
+  });
+}
