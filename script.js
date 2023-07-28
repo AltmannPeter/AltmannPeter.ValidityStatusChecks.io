@@ -56,7 +56,7 @@ function calculateBitVectorAnalysis() {
 
     const probabilityOfOne = coinBias / 100;
     const probabilityOfZero = 1 - probabilityOfOne;
-    const shannonEntropy = -(probabilityOfOne * Math.log2(probabilityOfOne) + probabilityOfZero * Math.log2(probabilityOfZero));
+    const shannonEntropy = (-(probabilityOfOne * Math.log2(probabilityOfOne) + probabilityOfZero * Math.log2(probabilityOfZero))) * numBits / 8;
 
     // Calculate the number of bits required to represent the bit vector
     const numBits = 1 << 20;
