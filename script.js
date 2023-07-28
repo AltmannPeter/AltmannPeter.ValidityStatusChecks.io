@@ -26,7 +26,7 @@ function calculateBitVectorAnalysis() {
     const bitVector = generateBitVector(numBits, probabilityOfOne);
 
     // Gzip compress the bit vector
-    const compressedData = pako.gzip(bitVector);
+    const compressedData = pako.gzip(bitVector, { level: 9 });
 
     // Get the size of the compressed data in bytes
     const compressedSizeInBytes = compressedData.length;
