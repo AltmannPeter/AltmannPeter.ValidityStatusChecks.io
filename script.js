@@ -140,7 +140,11 @@ function generateGraph() {
       responsive: true,
       scales: {
         x: {
-          type: "linear",
+          ticks: {
+            beginAtZero: true,
+            steps: 10,
+            stepSize: 1
+          }
         },
         y: {
           beginAtZero: true,
