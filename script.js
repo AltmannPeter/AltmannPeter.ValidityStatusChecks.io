@@ -23,6 +23,7 @@ function initializeTableWithSampleData() {
 
     analysisData.push({ bias: bias, entropy: shannonEntropy, compressedSize: compressedSizeInBytes, asr: asr });
   });
+  generateGraph(); // Call generateGraph after updating the table
 }
 
 // Function to generate a random bit vector
