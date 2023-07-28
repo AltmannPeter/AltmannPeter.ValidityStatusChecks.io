@@ -2,7 +2,7 @@ let analysisData = [];
 
 // Function to initialize the table with sample data
 function initializeTableWithSampleData() {
-  const sampleValues = [1, 2, 3, 10];
+  const sampleValues = [1, 2, 4, 6, 8, 10];
   sampleValues.forEach((bias) => {
     const probabilityOfOne = bias / 100;
     const probabilityOfZero = 1 - probabilityOfOne;
