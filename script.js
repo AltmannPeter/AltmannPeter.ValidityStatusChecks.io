@@ -21,10 +21,15 @@ function calculateBitVectorAnalysis() {
 
     // Calculate the number of bits required to represent the bit vector
     const numBits = 1 << 20;
-    
-    // Assume gzip compression for the bit vector
-    const compressedSizeInBits = numBits * shannonEntropy;
-    const compressedSizeInBytes = compressedSizeInBits / 8;
+
+    // Generate the bit vector
+    const bitVector = generateBitVector(numBits, probabilityOfOne);
+
+    // Gzip compress the bit vector
+    const compressedData = pako.gzip(bitVector);
+
+    // Get the size of the compressed data in bytes
+    const compressedSizeInBytes = compressedData.length;
 
     analysisData.push({ bias: coinBias, entropy: shannonEntropy, compressedSize: compressedSizeInBytes });
 
@@ -35,6 +40,17 @@ function calculateBitVectorAnalysis() {
     document.getElementById("result").textContent = ""; // Clear any previous messages
     coinBiasInput.value = ""; // Clear the input field after adding to the table
   }
+}
+
+function generateBitVector(length, probabilityOfOne) {
+  const bitVector = new Uint8Array(length);
+  const threshold = probabilityOfOne * 256;
+
+  for (let i = 0; i < length; i++) {
+    bitVector[i] = Math.random() * 256 < threshold ? 1 : 0;
+  }
+
+  return bitVector;
 }
 
 function updateTable() {
@@ -49,7 +65,7 @@ function updateTable() {
 
     biasCell.textContent = data.bias.toFixed(2) + "%";
     entropyCell.textContent = data.entropy.toFixed(4);
-    compressedSizeCell.textContent = data.compressedSize.toLocaleString(undefined, { maximumFractionDigits: 0 });
+    compressedSizeCell.textContent = data.compressedSize.toLocaleString();
 
     row.appendChild(biasCell);
     row.appendChild(entropyCell);
