@@ -42,9 +42,6 @@ initializeTableWithSampleData();
 function calculateBitVectorAnalysis() {
   const coinBiasInput = document.getElementById("coin-bias");
   const coinBias = parseFloat(coinBiasInput.value.trim());
-  const asr = numBits * probabilityOfOne * 128 / 8; // Convert bits to bytes
-  
-  analysisData.push({ bias: coinBias, entropy: shannonEntropy, compressedSize: compressedSizeInBytes, asr: asr });
 
   if (isNaN(coinBias) || coinBias < 0 || coinBias > 100) {
     document.getElementById("result").textContent = "Please enter a valid probability of 1 (between 0 and 100%).";
@@ -59,7 +56,6 @@ function calculateBitVectorAnalysis() {
     const probabilityOfOne = coinBias / 100;
     const probabilityOfZero = 1 - probabilityOfOne;
     const shannonEntropy = -(probabilityOfOne * Math.log2(probabilityOfOne) + probabilityOfZero * Math.log2(probabilityOfZero));
-    const formattedEntropy = shannonEntropy.toLocaleString(undefined, { maximumFractionDigits: 6 });
 
     // Calculate the number of bits required to represent the bit vector
     const numBits = 1 << 20;
@@ -73,7 +69,9 @@ function calculateBitVectorAnalysis() {
     // Get the size of the compressed data in bytes
     const compressedSizeInBytes = compressedData.length;
 
-    analysisData.push({ bias: coinBias, entropy: shannonEntropy, compressedSize: compressedSizeInBytes });
+    const asr = numBits * probabilityOfOne * 128 / 8; // Convert bits to bytes
+    
+    analysisData.push({ bias: coinBias, entropy: shannonEntropy, compressedSize: compressedSizeInBytes, asr: asr });
 
     // Sort the table by Shannon entropy in ascending order
     analysisData.sort((a, b) => a.entropy - b.entropy);
