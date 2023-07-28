@@ -3,23 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shannon Entropy Calculator</title>
+  <title>Bit Vector Analysis</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
-    <h1>Shannon Entropy Calculator</h1>
+    <h1>Bit Vector Analysis</h1>
     <label for="coin-bias">Enter the probability of 1 (between 0 and 100%):</label>
     <input type="number" id="coin-bias" step="any" min="0" max="100">
-    <button onclick="calculateShannonEntropy()">Add to Table</button>
+    <button onclick="calculateBitVectorAnalysis()">Add to Table</button>
     <table>
       <thead>
         <tr>
           <th>Bias</th>
           <th>Shannon Entropy</th>
+          <th>Compressibility</th>
         </tr>
       </thead>
-      <tbody id="entropy-table">
+      <tbody id="analysis-table">
         <!-- The table body will be populated dynamically with JavaScript -->
       </tbody>
     </table>
