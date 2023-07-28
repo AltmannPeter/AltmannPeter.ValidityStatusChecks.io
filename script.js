@@ -8,7 +8,7 @@ function initializeTableWithSampleData() {
     const probabilityOfZero = 1 - probabilityOfOne;
     // Calculate the number of bits required to represent the bit vector
     const numBits = 1 << 20;
-    const shannonEntropy = (-(probabilityOfOne * Math.log2(probabilityOfOne) + probabilityOfZero * Math.log2(probabilityOfZero))) * numBits;
+    const shannonEntropy = (-(probabilityOfOne * Math.log2(probabilityOfOne) + probabilityOfZero * Math.log2(probabilityOfZero))) * numBits / 8;
 
     // Generate the bit vector
     const bitVector = generateBitVector(numBits, probabilityOfOne);
