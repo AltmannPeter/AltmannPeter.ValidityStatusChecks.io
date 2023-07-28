@@ -19,10 +19,14 @@ function calculateBitVectorAnalysis() {
     const shannonEntropy = -(probabilityOfOne * Math.log2(probabilityOfOne) + probabilityOfZero * Math.log2(probabilityOfZero));
     const formattedEntropy = shannonEntropy.toLocaleString(undefined, { maximumFractionDigits: 4 });
 
+    // Calculate the number of bits required to represent the bit vector
+    const numBits = 1 << 20;
+    
     // Assume gzip compression for the bit vector
-    const compressedSize = Math.ceil(shannonEntropy * (1 << 20) / 8); // Size in bytes
+    const compressedSizeInBits = numBits * shannonEntropy;
+    const compressedSizeInBytes = compressedSizeInBits / 8;
 
-    analysisData.push({ bias: coinBias, entropy: shannonEntropy, compressedSize: compressedSize });
+    analysisData.push({ bias: coinBias, entropy: shannonEntropy, compressedSize: compressedSizeInBytes });
 
     // Sort the table and update
     analysisData.sort((a, b) => b.entropy - a.entropy);
@@ -45,7 +49,7 @@ function updateTable() {
 
     biasCell.textContent = data.bias.toFixed(2) + "%";
     entropyCell.textContent = data.entropy.toFixed(4);
-    compressedSizeCell.textContent = data.compressedSize.toLocaleString();
+    compressedSizeCell.textContent = data.compressedSize.toLocaleString(undefined, { maximumFractionDigits: 0 });
 
     row.appendChild(biasCell);
     row.appendChild(entropyCell);
