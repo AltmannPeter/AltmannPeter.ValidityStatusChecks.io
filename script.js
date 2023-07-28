@@ -20,7 +20,7 @@ function calculateBitVectorAnalysis() {
     const formattedEntropy = shannonEntropy.toLocaleString(undefined, { maximumFractionDigits: 4 });
 
     // Calculate the number of bits required to represent the bit vector
-    const numBits = 1 << 20;
+    const numBits = 1048576;
 
     // Generate the bit vector
     const bitVector = generateBitVector(numBits, probabilityOfOne);
