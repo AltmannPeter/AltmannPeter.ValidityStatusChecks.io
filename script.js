@@ -54,12 +54,12 @@ function calculateBitVectorAnalysis() {
       return;
     }
 
+    // Calculate the number of bits required to represent the bit vector
+    const numBits = 1 << 20;
+
     const probabilityOfOne = coinBias / 100;
     const probabilityOfZero = 1 - probabilityOfOne;
     const shannonEntropy = (-(probabilityOfOne * Math.log2(probabilityOfOne) + probabilityOfZero * Math.log2(probabilityOfZero))) * numBits / 8;
-
-    // Calculate the number of bits required to represent the bit vector
-    const numBits = 1 << 20;
 
     // Generate the bit vector
     const bitVector = generateBitVector(numBits, probabilityOfOne);
@@ -84,6 +84,7 @@ function calculateBitVectorAnalysis() {
     coinBiasInput.value = ""; // Clear the input field after adding to the table
   }
 }
+
 
 function updateTable() {
   const tableBody = document.getElementById("analysis-table");
