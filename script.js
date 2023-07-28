@@ -39,6 +39,7 @@ function generateBitVector(length, probabilityOfOne) {
 
 // Call the function to initialize the table with sample data
 initializeTableWithSampleData();
+generateGraph(); // Call generateGraph after updating the table
 
 function calculateBitVectorAnalysis() {
   const coinBiasInput = document.getElementById("coin-bias");
@@ -109,6 +110,7 @@ function updateTable() {
     row.appendChild(asrCell);
     tableBody.appendChild(row);
   });
+  generateGraph(); // Call generateGraph after updating the table
 }
 
 function generateGraph() {
