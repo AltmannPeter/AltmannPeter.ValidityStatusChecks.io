@@ -114,7 +114,7 @@ function generateGraph() {
 
   const ctx = document.getElementById("analysis-chart").getContext("2d");
   chart = new Chart(ctx, {
-    type: "line",
+    type: "bar",
     data: {
       labels: biases,
       datasets: [
