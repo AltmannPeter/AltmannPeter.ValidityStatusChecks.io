@@ -139,13 +139,6 @@ function generateGraph() {
     options: {
       responsive: true,
       scales: {
-        x: {
-          ticks: {
-            beginAtZero: true,
-            steps: 10,
-            stepSize: 1
-          }
-        },
         y: {
           beginAtZero: true,
         },
