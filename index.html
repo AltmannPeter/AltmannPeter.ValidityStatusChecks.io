@@ -27,16 +27,16 @@
         <!-- The table body will be populated dynamically with JavaScript -->
       </tbody>
     </table>
-    
+
+    <!-- Add a new button to generate the graph -->
+    <button onclick="generateGraph()">Generate Graph</button>
+    <!-- Add a canvas element to hold the chart -->
+    <canvas id="analysis-chart" width="400" height="200"></canvas>
   </div>
 
   <!-- Include the pako library from CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.0.4/pako.min.js"></script>
   <script src="script.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- Add a new button to generate the graph -->
-  <button onclick="generateGraph()">Generate Graph</button>
-  <!-- Add a canvas element to hold the chart -->
-  <canvas id="analysis-chart" width="400" height="200"></canvas>
 </body>
 </html>
