@@ -6,10 +6,9 @@ function initializeTableWithSampleData() {
   sampleValues.forEach((bias) => {
     const probabilityOfOne = bias / 100;
     const probabilityOfZero = 1 - probabilityOfOne;
-    const shannonEntropy = -(probabilityOfOne * Math.log2(probabilityOfOne) + probabilityOfZero * Math.log2(probabilityOfZero));
-
     // Calculate the number of bits required to represent the bit vector
     const numBits = 1 << 20;
+    const shannonEntropy = (-(probabilityOfOne * Math.log2(probabilityOfOne) + probabilityOfZero * Math.log2(probabilityOfZero))) * numBits;
 
     // Generate the bit vector
     const bitVector = generateBitVector(numBits, probabilityOfOne);
