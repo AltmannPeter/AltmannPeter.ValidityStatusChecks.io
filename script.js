@@ -113,24 +113,34 @@ function updateTable() {
 }
 
 function generateGraph() {
-  const biases = [];
-  const compressedSizes = [];
-
-  // Extract relevant data for the chart
-  analysisData.forEach((data) => {
-    biases.push(data.bias.toFixed(2) + "%");
-    compressedSizes.push(data.compressedSize);
-  });
+  const biases = analysisData.map((data) => data.bias.toFixed(2) + "%");
+  const entropies = analysisData.map((data) => Math.round(data.entropy));
+  const compressedSizes = analysisData.map((data) => data.compressedSize);
+  const asrs = analysisData.map((data) => Math.round(data.asr));
 
   const ctx = document.getElementById("analysis-chart").getContext("2d");
   const chart = new Chart(ctx, {
-    type: "line",
+    type: "bar",
     data: {
       labels: biases,
       datasets: [
         {
-          label: "Gzip Compressed ASL Size (bytes)",
+          label: "Shannon Entropy",
+          data: entropies,
+          backgroundColor: "rgba(54, 162, 235, 0.6)",
+          borderColor: "rgba(54, 162, 235, 1)",
+          borderWidth: 1,
+        },
+        {
+          label: "Compressed Size (bytes)",
           data: compressedSizes,
+          backgroundColor: "rgba(255, 99, 132, 0.6)",
+          borderColor: "rgba(255, 99, 132, 1)",
+          borderWidth: 1,
+        },
+        {
+          label: "128-bit ARL (bytes)",
+          data: asrs,
           backgroundColor: "rgba(75, 192, 192, 0.6)",
           borderColor: "rgba(75, 192, 192, 1)",
           borderWidth: 1,
@@ -141,12 +151,11 @@ function generateGraph() {
       responsive: true,
       scales: {
         x: {
-          type: "linear", // Use linear scale for the x-axis
-          min: 0, // Set the minimum value of the x-axis to 0
+          type: "linear",
+          min: 0,
           ticks: {
-            stepSize: 0.1, // Set the step size to 1 to show all integer values on the x-axis
+            stepSize: 1,
           },
-        },
         y: {
           beginAtZero: true,
         },
@@ -154,6 +163,7 @@ function generateGraph() {
     },
   });
 }
+
 
 
 // Show an empty table when the page loads
