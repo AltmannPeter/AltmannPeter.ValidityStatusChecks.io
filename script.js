@@ -17,11 +17,9 @@ function calculateBitVectorAnalysis() {
     const probabilityOfOne = coinBias / 100;
     const probabilityOfZero = 1 - probabilityOfOne;
     const shannonEntropy = -(probabilityOfOne * Math.log2(probabilityOfOne) + probabilityOfZero * Math.log2(probabilityOfZero));
-    const compressibility = shannonEntropy / (Math.log2(1 << 20)); // 1 << 20 represents the number of possibilities in the bit vector
     const formattedEntropy = shannonEntropy.toLocaleString(undefined, { maximumFractionDigits: 4 });
-    const formattedCompressibility = compressibility.toLocaleString(undefined, { maximumFractionDigits: 4 });
 
-    analysisData.push({ bias: coinBias, entropy: shannonEntropy, compressibility: compressibility });
+    analysisData.push({ bias: coinBias, entropy: shannonEntropy });
 
     // Sort the table and update
     analysisData.sort((a, b) => b.entropy - a.entropy);
@@ -44,7 +42,7 @@ function updateTable() {
 
     biasCell.textContent = data.bias.toFixed(2) + "%";
     entropyCell.textContent = data.entropy.toFixed(4);
-    compressibilityCell.textContent = data.compressibility.toFixed(4);
+    compressibilityCell.textContent = data.entropy.toFixed(4); // Compressibility is the same as Shannon entropy
 
     row.appendChild(biasCell);
     row.appendChild(entropyCell);
