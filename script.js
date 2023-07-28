@@ -98,9 +98,9 @@ function updateTable() {
     const asrCell = document.createElement("td");
 
     biasCell.textContent = data.bias.toFixed(1) + "%";
-    entropyCell.textContent = data.entropy.toLocaleString();
+    entropyCell.textContent = Math.round(data.entropy).toLocaleString();
     compressedSizeCell.textContent = data.compressedSize.toLocaleString();
-    asrCell.textContent = data.asr.toLocaleString();
+    asrCell.textContent = Math.round(data.asr).toLocaleString();
 
     row.appendChild(biasCell);
     row.appendChild(entropyCell);
