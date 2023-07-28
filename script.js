@@ -3,7 +3,7 @@ let chart = null;  // Global variable for the chart
 
 // Function to initialize the table with sample data
 function initializeTableWithSampleData() {
-  const sampleValues = [1, 2, 4, 6, 8, 10];
+  const sampleValues = [1];
   sampleValues.forEach((bias) => {
     addDataToTable(bias);
   });
