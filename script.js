@@ -19,7 +19,10 @@ function calculateBitVectorAnalysis() {
     const shannonEntropy = -(probabilityOfOne * Math.log2(probabilityOfOne) + probabilityOfZero * Math.log2(probabilityOfZero));
     const formattedEntropy = shannonEntropy.toLocaleString(undefined, { maximumFractionDigits: 4 });
 
-    analysisData.push({ bias: coinBias, entropy: shannonEntropy });
+    // Assume gzip compression for the bit vector
+    const compressedSize = Math.ceil(shannonEntropy * (1 << 20) / 8); // Size in bytes
+
+    analysisData.push({ bias: coinBias, entropy: shannonEntropy, compressedSize: compressedSize });
 
     // Sort the table and update
     analysisData.sort((a, b) => b.entropy - a.entropy);
@@ -38,15 +41,15 @@ function updateTable() {
     const row = document.createElement("tr");
     const biasCell = document.createElement("td");
     const entropyCell = document.createElement("td");
-    const compressibilityCell = document.createElement("td");
+    const compressedSizeCell = document.createElement("td");
 
     biasCell.textContent = data.bias.toFixed(2) + "%";
     entropyCell.textContent = data.entropy.toFixed(4);
-    compressibilityCell.textContent = data.entropy.toFixed(4); // Compressibility is the same as Shannon entropy
+    compressedSizeCell.textContent = data.compressedSize.toLocaleString();
 
     row.appendChild(biasCell);
     row.appendChild(entropyCell);
-    row.appendChild(compressibilityCell);
+    row.appendChild(compressedSizeCell);
     tableBody.appendChild(row);
   });
 }
