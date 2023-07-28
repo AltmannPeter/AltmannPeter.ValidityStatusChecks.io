@@ -1,27 +1,11 @@
 let analysisData = [];
+let chart = null;  // Global variable for the chart
 
 // Function to initialize the table with sample data
 function initializeTableWithSampleData() {
   const sampleValues = [1, 2, 4, 6, 8, 10];
   sampleValues.forEach((bias) => {
-    const probabilityOfOne = bias / 100;
-    const probabilityOfZero = 1 - probabilityOfOne;
-    // Calculate the number of bits required to represent the bit vector
-    const numBits = 1 << 20;
-    const shannonEntropy = (-(probabilityOfOne * Math.log2(probabilityOfOne) + probabilityOfZero * Math.log2(probabilityOfZero))) * numBits / 8;
-
-    // Generate the bit vector
-    const bitVector = generateBitVector(numBits, probabilityOfOne);
-
-    // Gzip compress the bit vector with maximum compression (level 9)
-    const compressedData = pako.gzip(bitVector, { level: 9 });
-
-    // Get the size of the compressed data in bytes
-    const compressedSizeInBytes = compressedData.length;
-
-    const asr = numBits * probabilityOfOne * 128 / 8; // Convert bits to bytes
-
-    analysisData.push({ bias: bias, entropy: shannonEntropy, compressedSize: compressedSizeInBytes, asr: asr });
+    addDataToTable(bias);
   });
 }
 
@@ -53,36 +37,39 @@ function calculateBitVectorAnalysis() {
       document.getElementById("result").textContent = "This value already exists in the table.";
       return;
     }
-
-    // Calculate the number of bits required to represent the bit vector
-    const numBits = 1 << 20;
-
-    const probabilityOfOne = coinBias / 100;
-    const probabilityOfZero = 1 - probabilityOfOne;
-    const shannonEntropy = (-(probabilityOfOne * Math.log2(probabilityOfOne) + probabilityOfZero * Math.log2(probabilityOfZero))) * numBits / 8;
-
-    // Generate the bit vector
-    const bitVector = generateBitVector(numBits, probabilityOfOne);
-
-    // Gzip compress the bit vector with maximum compression (level 9)
-    const compressedData = pako.gzip(bitVector, { level: 9 });
-
-    // Get the size of the compressed data in bytes
-    const compressedSizeInBytes = compressedData.length;
-
-    const asr = numBits * probabilityOfOne * 128 / 8; // Convert bits to bytes
-    
-    analysisData.push({ bias: coinBias, entropy: shannonEntropy, compressedSize: compressedSizeInBytes, asr: asr });
-
-    // Sort the table by Shannon entropy in ascending order
-    analysisData.sort((a, b) => a.entropy - b.entropy);
-
-    // Update the table
-    updateTable();
+    addDataToTable(coinBias);
 
     document.getElementById("result").textContent = ""; // Clear any previous messages
     coinBiasInput.value = ""; // Clear the input field after adding to the table
   }
+}
+
+function addDataToTable(bias) {
+  const probabilityOfOne = bias / 100;
+  const probabilityOfZero = 1 - probabilityOfOne;
+
+  // Calculate the number of bits required to represent the bit vector
+  const numBits = 1 << 20;
+  const shannonEntropy = (-(probabilityOfOne * Math.log2(probabilityOfOne) + probabilityOfZero * Math.log2(probabilityOfZero))) * numBits / 8;
+
+  // Generate the bit vector
+  const bitVector = generateBitVector(numBits, probabilityOfOne);
+
+  // Gzip compress the bit vector with maximum compression (level 9)
+  const compressedData = pako.gzip(bitVector, { level: 9 });
+
+  // Get the size of the compressed data in bytes
+  const compressedSizeInBytes = compressedData.length;
+
+  const asr = numBits * probabilityOfOne * 128 / 8; // Convert bits to bytes
+  
+  analysisData.push({ bias: bias, entropy: shannonEntropy, compressedSize: compressedSizeInBytes, asr: asr });
+
+  // Sort the table by Shannon entropy in ascending order
+  analysisData.sort((a, b) => a.entropy - b.entropy);
+
+  // Update the table
+  updateTable();
 }
 
 function updateTable() {
@@ -112,17 +99,21 @@ function updateTable() {
 }
 
 function generateGraph() {
+  if (chart) {
+    chart.destroy();
+  }
+
   const biases = [];
   const compressedSizes = [];
 
   // Extract relevant data for the chart
   analysisData.forEach((data) => {
-    biases.push(data.bias.toFixed(2) + "%");
+    biases.push(data.bias);
     compressedSizes.push(data.compressedSize);
   });
 
   const ctx = document.getElementById("analysis-chart").getContext("2d");
-  const chart = new Chart(ctx, {
+  chart = new Chart(ctx, {
     type: "line",
     data: {
       labels: biases,
@@ -139,6 +130,11 @@ function generateGraph() {
     options: {
       responsive: true,
       scales: {
+        x: {
+          type: 'linear',
+          beginAtZero: true,
+          max: Math.max(...biases),
+        },
         y: {
           beginAtZero: true,
         },
