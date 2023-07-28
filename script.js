@@ -139,6 +139,9 @@ function generateGraph() {
     options: {
       responsive: true,
       scales: {
+        x: {
+          type: "linear",
+        },
         y: {
           beginAtZero: true,
         },
