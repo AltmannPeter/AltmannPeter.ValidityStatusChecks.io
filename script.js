@@ -2,7 +2,7 @@ let analysisData = [];
 
 // Function to initialize the table with sample data
 function initializeTableWithSampleData() {
-  const sampleValues = [0.5, 1, 1.5, 2, 2.5, 3, 5, 10];
+  const sampleValues = [1, 2, 3, 10];
   sampleValues.forEach((bias) => {
     const probabilityOfOne = bias / 100;
     const probabilityOfZero = 1 - probabilityOfOne;
@@ -56,7 +56,7 @@ function calculateBitVectorAnalysis() {
     const probabilityOfOne = coinBias / 100;
     const probabilityOfZero = 1 - probabilityOfOne;
     const shannonEntropy = -(probabilityOfOne * Math.log2(probabilityOfOne) + probabilityOfZero * Math.log2(probabilityOfZero));
-    const formattedEntropy = shannonEntropy.toLocaleString(undefined, { maximumFractionDigits: 4 });
+    const formattedEntropy = shannonEntropy.toLocaleString(undefined, { maximumFractionDigits: 6 });
 
     // Calculate the number of bits required to represent the bit vector
     const numBits = 1 << 20;
@@ -72,8 +72,8 @@ function calculateBitVectorAnalysis() {
 
     analysisData.push({ bias: coinBias, entropy: shannonEntropy, compressedSize: compressedSizeInBytes });
 
-    // Sort the table by Shannon entropy in descending order
-    analysisData.sort((a, b) => b.entropy - a.entropy);
+    // Sort the table by Shannon entropy in ascending order
+    analysisData.sort((a, b) => a.entropy - b.entropy);
 
     // Update the table
     updateTable();
