@@ -26,23 +26,25 @@ initializeTableWithSampleData();
 
 function calculateBitVectorAnalysis() {
   const coinBiasInput = document.getElementById("coin-bias");
-  const coinBias = parseFloat(coinBiasInput.value.trim());
+  let coinBias = parseFloat(coinBiasInput.value.trim());
 
   if (isNaN(coinBias) || coinBias < 0 || coinBias > 100) {
     document.getElementById("result").textContent = "Please enter a valid probability of 1 (between 0 and 100%).";
-  } else {
-    // Check for duplicate entries
-    const exists = analysisData.some(data => data.bias === coinBias);
-    if (exists) {
-      document.getElementById("result").textContent = "This value already exists in the table.";
-      return;
-    }
+    return;
+  } 
+  
+  coinBias = Math.round(coinBias * 10) / 10;
+  
+  const exists = analysisData.some(data => data.bias === coinBias);
+  if (exists) {
+    document.getElementById("result").textContent = "This value already exists in the table.";
+    return;
+  }
     addDataToTable(coinBias);
 
     document.getElementById("result").textContent = ""; // Clear any previous messages
     coinBiasInput.value = ""; // Clear the input field after adding to the table
   }
-}
 
 function addDataToTable(bias) {
   const probabilityOfOne = bias / 100;
