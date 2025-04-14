@@ -33,7 +33,8 @@ function calculateBitVectorAnalysis() {
     return;
   } 
   
-  coinBias = Math.round(coinBias * 10) / 10;
+  coinBias = Math.round(coinBias * 100) / 100;
+  coinBiasInput.value = coinBias.toFixed(2);
   
   const exists = analysisData.some(data => data.bias === coinBias);
   if (exists) {
